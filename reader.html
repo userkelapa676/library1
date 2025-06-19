@@ -4,17 +4,474 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reader - Library1</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/reader.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Reader Header */
+        .reader-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e0e0e0;
+            padding: 15px 20px;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .reader-header.hidden {
+            transform: translateY(-100%);
+        }
+
+        .reader-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .chapter-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .chapter-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 5px 0;
+            line-height: 1.2;
+        }
+
+        .book-title {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0;
+        }
+
+        .reading-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .progress-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-bar {
+            width: 120px;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        /* Navigation Button */
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #e7f3ff;
+            transform: scale(1.1);
+        }
+
+        /* Reader Content */
+        .reader-container {
+            margin-top: 90px;
+            padding: 30px 20px;
+            min-height: calc(100vh - 90px);
+        }
+
+        .reader-content {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .chapter-content {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .chapter-content h1 {
+            font-size: 2.2rem;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #007bff;
+        }
+
+        .chapter-content h2 {
+            font-size: 1.8rem;
+            color: #495057;
+            margin: 30px 0 15px 0;
+        }
+
+        .chapter-content h3 {
+            font-size: 1.4rem;
+            color: #495057;
+            margin: 25px 0 12px 0;
+        }
+
+        .chapter-content h4 {
+            font-size: 1.2rem;
+            color: #495057;
+            margin: 20px 0 10px 0;
+        }
+
+        .chapter-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+            text-indent: 30px;
+        }
+
+        .chapter-content p:first-of-type {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #495057;
+            text-indent: 0;
+        }
+
+        .chapter-content ul, .chapter-content ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        .chapter-content li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .chapter-content strong {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .chapter-content em {
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Controls */
+        .reader-controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1001;
+        }
+
+        .control-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .control-btn:hover {
+            background: #0056b3;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        /* Navigation */
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-button {
+            flex: 1;
+            padding: 15px 25px;
+            border: 2px solid #007bff;
+            background: white;
+            color: #007bff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background: #007bff;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .error {
+            text-align: center;
+            padding: 3rem;
+            color: #dc3545;
+        }
+
+        /* Visual elements dari data.js */
+        .flip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .flip-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid #e9ecef;
+        }
+
+        .flip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px 0;
+            margin: 30px 0;
+        }
+
+        .timeline-card {
+            min-width: 200px;
+            background: #e7f3ff;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #007bff;
+        }
+
+        .timeline-card h4 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .reader-header {
+                padding: 12px 15px;
+            }
+            
+            .reader-header-content {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            
+            .chapter-info {
+                min-width: auto;
+                width: 100%;
+            }
+            
+            .reading-info {
+                gap: 15px;
+                font-size: 0.8rem;
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .progress-bar {
+                width: 100px;
+            }
+            
+            .reader-container {
+                margin-top: 120px;
+                padding: 20px 15px;
+            }
+            
+            .chapter-content {
+                padding: 25px 20px;
+                margin-bottom: 20px;
+            }
+            
+            .chapter-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .reader-content {
+                font-size: 1rem;
+            }
+            
+            .reader-controls {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .control-btn {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .chapter-nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .flip-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-scroll {
+                flex-direction: column;
+            }
+
+            .timeline-card {
+                min-width: auto;
+            }
+        }
+
+        /* Dark Mode */
+        .dark-mode {
+            background: #1a1a1a !important;
+            color: #e0e0e0 !important;
+        }
+
+        .dark-mode .reader-header {
+            background: rgba(30, 30, 30, 0.95) !important;
+            border-bottom-color: #444 !important;
+        }
+
+        .dark-mode .chapter-title {
+            color: #fff !important;
+        }
+
+        .dark-mode .book-title,
+        .dark-mode .reading-info {
+            color: #ccc !important;
+        }
+
+        .dark-mode .progress-bar {
+            background: #444 !important;
+        }
+
+        .dark-mode .chapter-content {
+            background: #2d2d2d !important;
+            color: #e0e0e0 !important;
+        }
+
+        .dark-mode .chapter-content h1,
+        .dark-mode .chapter-content h2,
+        .dark-mode .chapter-content h3,
+        .dark-mode .chapter-content h4 {
+            color: #fff !important;
+        }
+
+        .dark-mode .chapter-nav {
+            background: #2d2d2d !important;
+        }
+
+        .dark-mode .nav-button {
+            background: #2d2d2d !important;
+            border-color: #007bff !important;
+            color: #007bff !important;
+        }
+
+        .dark-mode .nav-button:hover:not(:disabled) {
+            background: #007bff !important;
+            color: white !important;
+        }
+
+        .dark-mode .flip-card {
+            background: #3d3d3d !important;
+            border-color: #444 !important;
+            color: #e0e0e0 !important;
+        }
+
+        .dark-mode .timeline-card {
+            background: #2d3748 !important;
+            color: #e0e0e0 !important;
+        }
+    </style>
 </head>
-<body>
+<body class="loading">
     <!-- Reader Header -->
     <header class="reader-header" id="readerHeader">
         <div class="reader-header-content">
+            <button class="nav-btn" onclick="goBack()" title="Kembali">
+                <i class="fas fa-arrow-left fa-lg"></i>
+            </button>
+            
             <div class="chapter-info">
-                <h1 class="chapter-title" id="chapterTitle">Bab 1: Pendahuluan</h1>
-                <p class="book-title" id="bookTitle">Judul Buku</p>
+                <h1 class="chapter-title" id="chapterTitle">Memuat...</h1>
+                <p class="book-title" id="bookTitle">Memuat...</p>
             </div>
+            
             <div class="reading-info">
                 <div class="progress-info">
                     <span id="readingProgress">0%</span>
@@ -23,27 +480,58 @@
                     </div>
                 </div>
                 <div class="time-info">
+                    <i class="fas fa-clock"></i>
                     <span id="readingTime">0 menit</span>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Reader Content -->
-    <main class="reader-content" id="readerContent">
-        <div class="chapter-content">
-            <!-- Konten bab akan dimuat di sini -->
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...</p>
-            <!-- Tambahkan konten lainnya -->
-        </div>
-    </main>
+    <!-- Reader Container -->
+    <div class="reader-container">
+        <!-- Reader Content -->
+        <main class="reader-content" id="readerContent">
+            <div class="loading" id="loadingMessage">
+                <i class="fas fa-spinner fa-spin fa-2x"></i>
+                <p>Memuat konten...</p>
+            </div>
+            
+            <div class="error" id="errorMessage" style="display: none;">
+                <i class="fas fa-exclamation-triangle fa-2x"></i>
+                <h3>Konten tidak ditemukan</h3>
+                <p>Buku atau bab yang Anda cari tidak tersedia.</p>
+                <button onclick="goBack()" class="nav-button" style="margin-top: 20px; max-width: 200px;">
+                    Kembali ke Beranda
+                </button>
+            </div>
+            
+            <div id="chapterContainer" style="display: none;">
+                <div class="chapter-content" id="chapterContent">
+                    <!-- Content akan dimuat di sini -->
+                </div>
+                
+                <!-- Chapter Navigation -->
+                <nav class="chapter-nav">
+                    <button class="nav-button" id="prevChapterBtn" onclick="previousChapter()">
+                        <i class="fas fa-chevron-left"></i> Bab Sebelumnya
+                    </button>
+                    <button class="nav-button" id="nextChapterBtn" onclick="nextChapter()">
+                        Bab Selanjutnya <i class="fas fa-chevron-right"></i>
+                    </button>
+                </nav>
+            </div>
+        </main>
+    </div>
 
     <!-- Reader Controls -->
     <div class="reader-controls">
-        <button class="control-btn" id="toggleHeader" title="Toggle Header">
+        <button class="control-btn" id="toggleHeader" title="Sembunyikan/Tampilkan Header">
             <i class="fas fa-eye"></i>
         </button>
-        <button class="control-btn" id="fontSettings" title="Font Settings">
+        <button class="control-btn" id="darkModeToggle" title="Mode Gelap">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="control-btn" id="fontSettings" title="Pengaturan Font">
             <i class="fas fa-font"></i>
         </button>
         <button class="control-btn" id="bookmarkBtn" title="Bookmark">
@@ -51,6 +539,319 @@
         </button>
     </div>
 
-    <script src="js/reader.js"></script>
+    <script src="js/data.js"></script>
+    <script>
+        class ReaderManager {
+            constructor() {
+                this.header = document.getElementById('readerHeader');
+                this.content = document.getElementById('readerContent');
+                this.progressFill = document.getElementById('progressFill');
+                this.readingProgress = document.getElementById('readingProgress');
+                this.readingTime = document.getElementById('readingTime');
+                this.chapterTitle = document.getElementById('chapterTitle');
+                this.bookTitle = document.getElementById('bookTitle');
+                this.chapterContent = document.getElementById('chapterContent');
+                this.loadingMessage = document.getElementById('loadingMessage');
+                this.errorMessage = document.getElementById('errorMessage');
+                this.chapterContainer = document.getElementById('chapterContainer');
+                this.prevChapterBtn = document.getElementById('prevChapterBtn');
+                this.nextChapterBtn = document.getElementById('nextChapterBtn');
+                
+                this.lastScrollTop = 0;
+                this.startTime = Date.now();
+                this.isHeaderVisible = true;
+                this.isDarkMode = localStorage.getItem('darkMode') === 'true';
+                
+                this.currentBook = null;
+                this.currentChapter = null;
+                this.currentBookId = null;
+                this.currentChapterId = null;
+                
+                this.init();
+            }
+            
+            init() {
+                this.parseURL();
+                this.loadContent();
+                this.setupScrollHandler();
+                this.setupControls();
+                this.updateProgress();
+                this.updateReadingTime();
+                this.applyDarkMode();
+            }
+            
+            parseURL() {
+                const urlParams = new URLSearchParams(window.location.search);
+                this.currentBookId = urlParams.get('book');
+                this.currentChapterId = urlParams.get('chapter') || '1';
+            }
+            
+            loadContent() {
+                if (!this.currentBookId) {
+                    this.showError();
+                    return;
+                }
+                
+                // Cari buku berdasarkan ID
+                this.currentBook = books.find(book => book.id === this.currentBookId);
+                
+                if (!this.currentBook) {
+                    this.showError();
+                    return;
+                }
+                
+                // Cari chapter berdasarkan title (karena struktur data.js menggunakan title, bukan ID numerik)
+                const chapterIndex = parseInt(this.currentChapterId) - 1;
+                this.currentChapter = this.currentBook.chapters[chapterIndex];
+                
+                if (!this.currentChapter) {
+                    this.showError();
+                    return;
+                }
+                
+                this.renderContent();
+                this.updateNavigation();
+                this.hideLoading();
+            }
+            
+            renderContent() {
+                // Update header
+                this.chapterTitle.textContent = this.currentChapter.title;
+                this.bookTitle.textContent = this.currentBook.title;
+                
+                // Update content
+                let content = this.currentChapter.content;
+                
+                // Tambahkan visual jika ada
+                if (this.currentChapter.visual) {
+                    content += this.currentChapter.visual;
+                }
+                
+                this.chapterContent.innerHTML = content;
+            }
+            
+            updateNavigation() {
+                const currentIndex = parseInt(this.currentChapterId) - 1;
+                const totalChapters = this.currentBook.chapters.length;
+                
+                // Previous button
+                if (currentIndex <= 0) {
+                    this.prevChapterBtn.disabled = true;
+                    this.prevChapterBtn.textContent = 'Tidak ada bab sebelumnya';
+                } else {
+                    this.prevChapterBtn.disabled = false;
+                    this.prevChapterBtn.innerHTML = '<i class="fas fa-chevron-left"></i> Bab Sebelumnya';
+                }
+                
+                // Next button
+                if (currentIndex >= totalChapters - 1) {
+                    this.nextChapterBtn.disabled = true;
+                    this.nextChapterBtn.textContent = 'Tidak ada bab selanjutnya';
+                } else {
+                    this.nextChapterBtn.disabled = false;
+                    this.nextChapterBtn.innerHTML = 'Bab Selanjutnya <i class="fas fa-chevron-right"></i>';
+                }
+            }
+            
+            hideLoading() {
+                this.loadingMessage.style.display = 'none';
+                this.chapterContainer.style.display = 'block';
+                document.body.classList.remove('loading');
+            }
+            
+            showError() {
+                this.loadingMessage.style.display = 'none';
+                this.errorMessage.style.display = 'block';
+                document.body.classList.remove('loading');
+            }
+            
+            setupScrollHandler() {
+                let ticking = false;
+                
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        requestAnimationFrame(() => {
+                            this.handleScroll();
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                });
+            }
+            
+            handleScroll() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollDelta = scrollTop - this.lastScrollTop;
+                
+                // Auto-hide header when scrolling down
+                if (scrollDelta > 5 && scrollTop > 150) {
+                    this.hideHeader();
+                } else if (scrollDelta < -5) {
+                    this.showHeader();
+                }
+                
+                this.lastScrollTop = Math.max(scrollTop, 0);
+                this.updateProgress();
+            }
+            
+            hideHeader() {
+                if (this.isHeaderVisible) {
+                    this.header.classList.add('hidden');
+                    this.                    this.isHeaderVisible = false;
+                }
+            }
+            
+            showHeader() {
+                if (!this.isHeaderVisible) {
+                    this.header.classList.remove('hidden');
+                    this.isHeaderVisible = true;
+                }
+            }
+            
+            toggleHeader() {
+                if (this.isHeaderVisible) {
+                    this.hideHeader();
+                } else {
+                    this.showHeader();
+                }
+            }
+            
+            updateProgress() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0;
+                
+                this.progressFill.style.width = `${progress}%`;
+                this.readingProgress.textContent = `${Math.round(progress)}%`;
+            }
+            
+            updateReadingTime() {
+                const updateTime = () => {
+                    const elapsed = Math.floor((Date.now() - this.startTime) / 60000);
+                    this.readingTime.textContent = `${elapsed} menit`;
+                };
+                
+                updateTime();
+                setInterval(updateTime, 60000);
+            }
+            
+            toggleDarkMode() {
+                this.isDarkMode = !this.isDarkMode;
+                localStorage.setItem('darkMode', this.isDarkMode.toString());
+                this.applyDarkMode();
+            }
+            
+            applyDarkMode() {
+                const darkModeToggle = document.getElementById('darkModeToggle');
+                const icon = darkModeToggle.querySelector('i');
+                
+                if (this.isDarkMode) {
+                    document.body.classList.add('dark-mode');
+                    icon.className = 'fas fa-sun';
+                    darkModeToggle.title = 'Mode Terang';
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    icon.className = 'fas fa-moon';
+                    darkModeToggle.title = 'Mode Gelap';
+                }
+            }
+            
+            setupControls() {
+                // Toggle header visibility
+                document.getElementById('toggleHeader').addEventListener('click', () => {
+                    this.toggleHeader();
+                });
+                
+                // Dark mode toggle
+                document.getElementById('darkModeToggle').addEventListener('click', () => {
+                    this.toggleDarkMode();
+                });
+                
+                // Font settings (placeholder)
+                document.getElementById('fontSettings').addEventListener('click', () => {
+                    alert('Fitur pengaturan font akan segera hadir!');
+                });
+                
+                // Bookmark (placeholder)
+                document.getElementById('bookmarkBtn').addEventListener('click', () => {
+                    alert('Halaman telah di-bookmark!');
+                });
+                
+                // Keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    switch(e.key) {
+                        case 'h':
+                        case 'H':
+                            if (e.ctrlKey || e.metaKey) {
+                                e.preventDefault();
+                                this.toggleHeader();
+                            }
+                            break;
+                        case 'Escape':
+                            this.showHeader();
+                            break;
+                        case 'd':
+                        case 'D':
+                            if (e.ctrlKey || e.metaKey) {
+                                e.preventDefault();
+                                this.toggleDarkMode();
+                            }
+                            break;
+                    }
+                });
+            }
+        }
+
+        // Navigation functions
+        function goBack() {
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
+        function previousChapter() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookId = urlParams.get('book');
+            const currentChapter = parseInt(urlParams.get('chapter')) || 1;
+            
+            if (currentChapter > 1) {
+                window.location.href = `reader.html?book=${bookId}&chapter=${currentChapter - 1}`;
+            }
+        }
+
+        function nextChapter() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookId = urlParams.get('book');
+            const currentChapter = parseInt(urlParams.get('chapter')) || 1;
+            
+            // Cari buku untuk mengetahui jumlah total chapter
+            const book = books.find(b => b.id === bookId);
+            if (book && currentChapter < book.chapters.length) {
+                window.location.href = `reader.html?book=${bookId}&chapter=${currentChapter + 1}`;
+            }
+        }
+
+        // Smooth scroll function
+        function smoothScrollTo(element) {
+            element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Initialize reader when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ReaderManager();
+        });
+
+        // Prevent context menu on control buttons (optional)
+        document.querySelectorAll('.control-btn').forEach(btn => {
+            btn.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+            });
+        });
+    </script>
 </body>
 </html>
