@@ -25,46 +25,7 @@ const books = [
             <p>Dalam bab ini, kita akan menjelajahi berbagai jenis bilangan yang membentuk fondasi matematika modern, mulai dari bilangan natural yang sederhana hingga bilangan kompleks yang memungkinkan kita memecahkan persamaan yang sebelumnya tidak mungkin diselesaikan.</p>
             `,
             visual: `
-            <div class="history-carousel">
-                <div class="history-slide mesir">
-                <h4>Mesir Kuno</h4>
-                <p>Hieroglif digunakan untuk mencatat ternak dan panen.</p>
-                </div>
-                <div class="history-slide babilonia">
-                <h4>Babilonia</h4>
-                <p>Sistem basis 60 — untuk waktu dan sudut.</p>
-                </div>
-                <div class="history-slide maya">
-                <h4>Maya & Tiongkok</h4>
-                <p>Pengaruh sistem vigesimal dan operasi numerik.</p>
-                </div>
-                <div class="history-slide hindu-arab">
-                <h4>Sistem Hindu-Arab</h4>
-                <p>Angka efisien yang menggantikan sistem Romawi.</p>
-                </div>
-            </div>
-
-            <h2 class="section-heading">Mengapa Sistem Bilangan Penting?</h2>
-            <div class="timeline-scroll">
-                <div class="timeline-card">
-                <h4>Mengkuantifikasi Realitas</h4>
-                <p>Mengukur jarak antar bintang hingga partikel subatomik.</p>
-                </div>
-                <div class="timeline-card">
-                <h4>Membangun Teknologi</h4>
-                <p>Komputer, smartphone, dan internet bergantung pada bilangan biner.</p>
-                </div>
-                <div class="timeline-card">
-                <h4>Memahami Pola</h4>
-                <p>Matematika mengungkap keteraturan dalam alam semesta.</p>
-                </div>
-                <div class="timeline-card">
-                <h4>Berkomunikasi Presisi</h4>
-                <p>Bilangan memberi cara yang tepat menyampaikan informasi kuantitatif.</p>
-                </div>
-            </div>
             `
-
         },
         {
             title: "BAB II: Bilangan Natural dan Bulat",
