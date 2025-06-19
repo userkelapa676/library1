@@ -1,0 +1,408 @@
+/* css/style.css */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #2c3e50;
+}
+
+.book-container {
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar {
+  width: 320px;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  overflow-y: auto;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.book-header {
+  padding: 30px 25px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.book-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #3498db, #2ecc71);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.chapter-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.chapter-item.active, .chapter-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-left-color: #3498db;
+}
+
+.chapter-number {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+}
+
+.main-content {
+  flex: 1;
+  background: white;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.content-header {
+  padding: 25px 40px;
+  background: rgba(255, 255, 255, 0.95);
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.content-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+
+.content-body {
+  padding: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px;
+  background: #f8f9fa;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 25px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.mobile-toggle {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-toggle {
+    display: block;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: #2c3e50;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  .sidebar {
+    position: fixed;
+    left: -320px;
+    top: 0;
+    z-index: 999;
+    transition: left 0.3s ease;
+  }
+  .sidebar.show {
+    left: 0;
+  }
+}
+
+/* === Layout Reader Fixed === */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* === Section Heading === */
+.section-heading {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin: 2.5rem 0 1.5rem;
+  color: #2c3e50;
+  border-left: 6px solid #3498db;
+  padding-left: 14px;
+}
+
+/* === Mode Toggle UI === */
+.view-toggle {
+  margin: 2rem auto;
+  text-align: center;
+}
+.view-toggle button {
+  margin: 0 0.5rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border: 2px solid #3498db;
+  background: white;
+  color: #3498db;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.view-toggle button.active,
+.view-toggle button:hover {
+  background: #3498db;
+  color: white;
+}
+.content-view {
+  display: none;
+}
+.content-view.active {
+  display: block;
+}
+
+/* === History Carousel Visual Timeline === */
+.history-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 2rem;
+  margin: 2.5rem 0;
+  padding: 1rem 0;
+  padding-bottom: 1.5rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.history-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.history-slide {
+  flex: 0 0 300px;
+  scroll-snap-align: start;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: overlay;
+  min-height: 340px;
+  transition: transform 0.3s ease;
+  background-color: #333;
+}
+.history-slide:hover {
+  transform: scale(1.04);
+}
+.history-slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.2));
+  z-index: 0;
+  border-radius: 20px;
+}
+.history-slide h4,
+.history-slide p {
+  position: relative;
+  z-index: 1;
+}
+.history-slide h4 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 0.6rem;
+}
+.history-slide p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #f0f0f0;
+}
+.history-slide.mesir {
+  background-image: url('../assets/images/egypt.jpg');
+}
+.history-slide.babilonia {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/d/dd/Ancient_Babylon_city.jpg');
+}
+.history-slide.maya {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e9/Mayan_calendar_stone.jpg');
+}
+.history-slide.hindu-arab {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/58/Arabic_numbers_origin.png');
+}
+
+/* === Tambahan Styling untuk Timeline Visual Bab I === */
+.timeline-scroll {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  margin: 2rem 0;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+.timeline-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.timeline-card {
+  flex: 0 0 240px;
+  scroll-snap-align: start;
+  background: linear-gradient(135deg, #fdfdfd, #f0f8ff);
+  border: 2px solid #3498db;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.timeline-card:hover {
+  transform: scale(1.05);
+}
+
+.timeline-card h4 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.timeline-card p {
+  font-size: 0.95rem;
+  color: #555;
+  margin: 0;
+}
+
+/* === Visual Bab 2: Bilangan Natural dan Bulat === */
+.flip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.flip-card {
+  background: transparent;
+  width: 180px;
+  height: 120px;
+  perspective: 1000px;
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-front, .flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.flip-front {
+  background: #3498db;
+  color: white;
+}
+
+.flip-back {
+  background: #ecf6ff;
+  color: #333;
+  transform: rotateY(180deg);
+}
+
+/* === Sifat Kelengkapan === */
+.completeness-box {
+  background: #f0f8ff;
+  border-left: 6px solid #3498db;
+  padding: 1rem 1.5rem;
+  margin: 2rem 0;
+  border-radius: 8px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #2c3e50;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+/* === Bilangan Kompleks === */
+.complex-box {
+  background: #fff6f0;
+  border-left: 6px solid #e67e22;
+  padding: 1.2rem 1.5rem;
+  margin: 2rem 0;
+  border-radius: 8px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #5e412f;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.complex-box code {
+  background: #ffe0c2;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: Consolas, monospace;
+  color: #d35400;
+}
