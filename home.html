@@ -1,39 +1,343 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Perpustakaan Digital</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library1 - Digital Library</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .search-section {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e9ecef;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .book-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .book-icon {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .book-info {
+            flex: 1;
+        }
+
+        .book-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .book-subtitle {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .book-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .chapters-count {
+            color: #667eea;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .read-time {
+            color: #999;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .no-books {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .no-books i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .books-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .book-card {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="library-container">
-    <h1 class="library-title">Perpustakaan Digital</h1>
-    <div class="book-grid" id="bookGrid"></div>
-  </div>
+    <header class="header">
+        <div>
+            <h1>Library1</h1>
+            <p>Koleksi Buku Digital Terlengkap</p>
+        </div>
+    </header>
 
-  <script src="js/data.js"></script>
-  <script>
-    const bookGrid = document.getElementById("bookGrid");
+    <div class="container">
+        <div class="search-section">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Cari buku berdasarkan judul atau kategori..." id="searchInput">
+            </div>
+        </div>
 
-    books.forEach((book) => {
-        const card = document.createElement("div");
-        card.className = "book-card";
-        card.onclick = () => {
-            localStorage.setItem("selectedBookId", book.id); // Gunakan id buku!
-            window.location.href = "reader.html";
-        };
+        <h2 class="section-title">Semua Buku</h2>
+        <div class="books-grid" id="booksGrid">
+            <!-- Books akan dimuat di sini -->
+        </div>
 
-        card.innerHTML = `
-            <h3>${book.title}</h3>
-            <p>${book.subtitle}</p>
-        `;
+        <div class="no-books" id="noBooksMessage" style="display: none;">
+            <i class="fas fa-search"></i>
+            <h3>Tidak ada buku ditemukan</h3>
+            <p>Coba gunakan kata kunci yang berbeda</p>
+        </div>
+    </div>
 
-        bookGrid.appendChild(card);
-    });
+    <script src="js/data.js"></script>
+    <script>
+        class LibraryApp {
+            constructor() {
+                this.booksGrid = document.getElementById('booksGrid');
+                this.searchInput = document.getElementById('searchInput');
+                this.noBooksMessage = document.getElementById('noBooksMessage');
+                
+                this.init();
+            }
 
-  </script>
+            init() {
+                this.renderBooks(books);
+                this.setupSearch();
+            }
+
+            renderBooks(booksToRender) {
+                this.booksGrid.innerHTML = '';
+                
+                if (booksToRender.length === 0) {
+                    this.showNoBooks();
+                    return;
+                }
+
+                this.hideNoBooks();
+
+                booksToRender.forEach(book => {
+                    const bookCard = this.createBookCard(book);
+                    this.booksGrid.appendChild(bookCard);
+                });
+            }
+
+            createBookCard(book) {
+                const card = document.createElement('a');
+                card.href = `reader.html?book=${book.id}&chapter=1`;
+                card.className = 'book-card';
+                
+                // Hitung total waktu baca
+                const totalReadingTime = book.chapters.reduce((total, chapter) => {
+                    const time = parseInt(chapter.readingTime.replace(/\D/g, '')) || 0;
+                    return total + time;
+                }, 0);
+
+                card.innerHTML = `
+                    <div class="book-header">
+                        <div class="book-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="book-info">
+                            <h3 class="book-title">${book.title}</h3>
+                            <p class="book-subtitle">${book.subtitle}</p>
+                        </div>
+                    </div>
+                    <div class="book-meta">
+                        <span class="chapters-count">
+                            <i class="fas fa-list"></i>
+                            ${book.chapters.length} Bab
+                        </span>
+                        <span class="read-time">
+                            <i class="fas fa-clock"></i>
+                            ${totalReadingTime} menit
+                        </span>
+                    </div>
+                `;
+
+                return card;
+            }
+
+            setupSearch() {
+                this.searchInput.addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase().trim();
+                    
+                    if (query === '') {
+                        this.renderBooks(books);
+                        return;
+                    }
+
+                    const filteredBooks = books.filter(book => 
+                        book.title.toLowerCase().includes(query) ||
+                        book.subtitle.toLowerCase().includes(query) ||
+                        book.chapters.some(chapter => 
+                            chapter.title.toLowerCase().includes(query)
+                        )
+                    );
+
+                    this.renderBooks(filteredBooks);
+                });
+            }
+
+            showNoBooks() {
+                this.noBooksMessage.style.display = 'block';
+            }
+
+            hideNoBooks() {
+                this.noBooksMessage.style.display = 'none';
+            }
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new LibraryApp();
+        });
+    </script>
 </body>
 </html>
