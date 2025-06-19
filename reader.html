@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buku Digital</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <button class="mobile-toggle" onclick="toggleSidebar()">
+        <span class="material-icons">menu</span>
+    </button>
+
+    <div class="book-container">
+        <nav class="sidebar" id="sidebar">
+            <div class="book-header">
+                <h1 class="book-title" id="bookTitle">Judul Buku</h1>
+                <p class="book-subtitle" id="bookSubtitle">Subjudul</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+            <div class="chapters-list" id="chaptersList"></div>
+        </nav>
+
+        <main class="main-content">
+            <header class="content-header">
+                <h1 class="content-title" id="chapterTitle">Bab</h1>
+                <div class="content-meta">
+                    <div class="meta-item">
+                        <span class="material-icons">schedule</span>
+                        <span id="readingTime">0 menit baca</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="material-icons">bookmark</span>
+                        <span>Bab <span id="currentChapter">1</span></span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="view-toggle">
+                <button id="textModeBtn" class="active">📖 Teks Biasa</button>
+                <button id="visualModeBtn">🎨 Visual Interaktif</button>
+            </div>
+
+            <div class="content-body" id="chapterContent">
+                <div class="text-content">Loading konten teks...</div>
+                <div class="visual-content" style="display: none;">Loading visual interaktif...</div>
+            </div>
+
+            <div class="navigation-buttons">
+                <button class="nav-btn" id="prevBtn" onclick="previousChapter()">
+                    <span class="material-icons">arrow_back</span>
+                    Bab Sebelumnya
+                </button>
+                <button class="nav-btn" id="nextBtn" onclick="nextChapter()">
+                    Bab Selanjutnya
+                    <span class="material-icons">arrow_forward</span>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const textBtn = document.getElementById("textModeBtn");
+            const visualBtn = document.getElementById("visualModeBtn");
+            const textContent = document.querySelector(".text-content");
+            const visualContent = document.querySelector(".visual-content");
+
+            textBtn.addEventListener("click", () => {
+                textContent.style.display = "block";
+                visualContent.style.display = "none";
+                textBtn.classList.add("active");
+                visualBtn.classList.remove("active");
+            });
+
+            visualBtn.addEventListener("click", () => {
+                visualContent.style.display = "block";
+                textContent.style.display = "none";
+                visualBtn.classList.add("active");
+                textBtn.classList.remove("active");
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'952421ed4f3e6cf0',t:'MTc1MDM0NzcwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
