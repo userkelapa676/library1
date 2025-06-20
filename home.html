@@ -1,343 +1,165 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library1 - Digital Library</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f8f9fa;
-            color: #333;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .search-section {
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
-        .search-box {
-            position: relative;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            border: 2px solid #e9ecef;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #666;
-        }
-
-        .books-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .book-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .book-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .book-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .book-icon {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        .book-info {
-            flex: 1;
-        }
-
-        .book-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
-        }
-
-        .book-subtitle {
-            color: #666;
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-
-        .book-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #e9ecef;
-        }
-
-        .chapters-count {
-            color: #667eea;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .read-time {
-            color: #999;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            color: #333;
-        }
-
-        .no-books {
-            text-align: center;
-            padding: 3rem;
-            color: #666;
-        }
-
-        .no-books i {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.3;
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-
-            .header p {
-                font-size: 1rem;
-            }
-
-            .container {
-                padding: 1rem;
-            }
-
-            .books-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .book-card {
-                padding: 1rem;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>Booky Fantasy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,400&display=swap');
+  </style>
 </head>
-<body>
-    <header class="header">
-        <div>
-            <h1>Library1</h1>
-            <p>Koleksi Buku Digital Terlengkap</p>
-        </div>
-    </header>
-
-    <div class="container">
-        <div class="search-section">
-            <div class="search-box">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-input" placeholder="Cari buku berdasarkan judul atau kategori..." id="searchInput">
-            </div>
-        </div>
-
-        <h2 class="section-title">Semua Buku</h2>
-        <div class="books-grid" id="booksGrid">
-            <!-- Books akan dimuat di sini -->
-        </div>
-
-        <div class="no-books" id="noBooksMessage" style="display: none;">
-            <i class="fas fa-search"></i>
-            <h3>Tidak ada buku ditemukan</h3>
-            <p>Coba gunakan kata kunci yang berbeda</p>
-        </div>
+<body class="bg-white font-sans">
+  <!-- Header -->
+  <header class="flex items-center justify-between bg-green-600 px-4 py-3">
+   <button aria-label="Menu" class="text-white text-2xl">
+    <i class="fas fa-bars"></i>
+   </button>
+   <button aria-label="Back" class="text-white text-2xl">
+    <i class="fas fa-chevron-left"></i>
+   </button>
+   <div class="italic text-white text-lg font-normal select-none">
+    booky
+   </div>
+   <button aria-label="Search" class="text-white text-2xl">
+    <i class="fas fa-search"></i>
+   </button>
+  </header>
+  
+  <!-- Image with curved bottom -->
+  <div class="relative w-full overflow-hidden">
+   <img alt="A small sailboat floating on a calm lake under a starry night sky with clouds and their reflection on the water" class="w-full object-cover" height="300" src="https://storage.googleapis.com/a1aa/image/de277337-21c2-4c53-6cdd-751f5b1d8218.jpg" style="clip-path: ellipse(100% 80% at 50% 100%)" width="600"/>
+   <h1 class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white font-extrabold text-2xl drop-shadow-lg select-none">
+    Fantasy
+   </h1>
+  </div>
+  
+  <!-- Books section -->
+  <section class="px-4 pt-4 pb-10">
+   <h2 class="text-green-600 font-semibold text-base mb-3 select-none">
+    Books (8)
+   </h2>
+   <div class="grid grid-cols-2 gap-x-4 gap-y-6">
+    <!-- Book 1: The Hobbit -->
+    <div class="relative cursor-pointer hover:opacity-80 transition-opacity" onclick="openBook(1)">
+     <img alt="The Hobbit book cover showing a dragon and fire in orange and yellow tones" class="rounded-lg w-full object-cover" height="200" src="https://storage.googleapis.com/a1aa/image/d0f0695c-4c8d-4b27-4f56-69c96be4191d.jpg" width="150"/>
+     <div aria-label="Checked" class="absolute top-2 right-2 bg-green-600 rounded text-white text-xs w-5 h-5 flex items-center justify-center">
+      <i class="fas fa-check"></i>
+     </div>
+     <p class="mt-2 text-center text-sm font-normal text-gray-700 select-none">
+      The Hobbit
+     </p>
+     <p class="text-center text-xs text-gray-400 select-none">
+      J. R. R. Tolkien
+     </p>
     </div>
+    
+    <!-- Book 2: Catching Fire -->
+    <div class="relative cursor-pointer hover:opacity-80 transition-opacity" onclick="openBook(2)">
+     <img alt="Catching Fire book cover in red with a white bird and circle logo" class="rounded-lg w-full object-cover" height="200" src="https://storage.googleapis.com/a1aa/image/35dd01d4-c881-4f93-b0c1-3267157dd074.jpg" width="150"/>
+     <div aria-label="Checked" class="absolute top-2 right-2 bg-green-600 rounded text-white text-xs w-5 h-5 flex items-center justify-center">
+      <i class="fas fa-check"></i>
+     </div>
+     <p class="mt-2 text-center text-sm font-normal text-gray-700 select-none">
+      Catching Fire
+     </p>
+     <p class="text-center text-xs text-gray-400 select-none">
+      Suzanne Collins
+     </p>
+    </div>
+    
+    <!-- Book 3: Bridge of Clay -->
+    <div class="relative cursor-pointer hover:opacity-80 transition-opacity" onclick="openBook(3)">
+     <img alt="Bridge of Clay book cover with pastel colors, text, and a signed copy seal" class="rounded-lg w-full object-cover" height="200" src="https://storage.googleapis.com/a1aa/image/21506162-208f-4850-e45a-92ba4b72f4ca.jpg" width="150"/>
+     <div aria-label="Bookmark" class="absolute top-2 right-2 bg-green-600 rounded text-white text-xs w-5 h-5 flex items-center justify-center">
+      <i class="fas fa-bookmark"></i>
+     </div>
+     <p class="mt-2 text-center text-sm font-normal text-gray-700 select-none">
+      Bridge of Clay
+     </p>
+     <p class="text-center text-xs text-gray-400 select-none">
+      Markus Zusak
+     </p>
+    </div>
+    
+    <!-- Book 4: The Borgias -->
+    <div class="relative cursor-pointer hover:opacity-80 transition-opacity" onclick="openBook(4)">
+     <img alt="The Borgias book cover showing a hand holding a red cloth" class="rounded-lg w-full object-cover" height="200" src="https://storage.googleapis.com/a1aa/image/a046bed7-c898-46b6-cd20-fcaa236527f5.jpg" width="150"/>
+     <div aria-label="Bookmark" class="absolute top-2 right-2 bg-green-600 rounded text-white text-xs w-5 h-5 flex items-center justify-center">
+      <i class="fas fa-bookmark"></i>
+     </div>
+     <p class="mt-2 text-center text-sm font-normal text-gray-700 select-none">
+      The Borgias
+     </p>
+     <p class="text-center text-xs text-gray-400 select-none">
+      Christopher Hibbert
+     </p>
+    </div>
+    
+    <!-- Book 5: A Man Called Ove -->
+    <div class="relative cursor-pointer hover:opacity-80 transition-opacity" onclick="openBook(5)">
+     <img alt="A Man Called Ove book cover with a man walking on a road under a blue sky" class="rounded-lg w-full object-cover" height="200" src="https://storage.googleapis.com/a1aa/image/e2552811-dc80-4e9f-ca4f-0ad6a2c1387d.jpg" width="150"/>
+     <div aria-label="Checked" class="absolute top-2 right-2 bg-green-600 rounded text-white text-xs w-5 h-5 flex items-center justify-center">
+      <i class="fas fa-check"></i>
+     </div>
+     <p class="mt-2 text-center text-sm font-normal text-gray-700 select-none">
+      A Man Called Ove
+     </p>
+     <p class="text-center text-xs text-gray-400 select-none">
+      Fredrik Backman
+     </p>
+    </div>
+    
+    <!-- Book 6: A Game of Thrones -->
+    <div class="relative cursor-pointer hover:opacity-80 transition-opacity" onclick="openBook(6)">
+     <img alt="A Game of Thrones book cover with a dragon head in gold and brown tones" class="rounded-lg w-full object-cover" height="200" src="https://storage.googleapis.com/a1aa/image/f88b21a2-cb92-440b-0aa6-fd5f953942cf.jpg" width="150"/>
+     <div aria-label="Checked" class="absolute top-2 right-2 bg-green-600 rounded text-white text-xs w-5 h-5 flex items-center justify-center">
+      <i class="fas fa-check"></i>
+     </div>
+     <p class="mt-2 text-center text-sm font-normal text-gray-700 select-none">
+      A Game of Thrones
+     </p>
+     <p class="text-center text-xs text-gray-400 select-none">
+      George R. R. Martin
+     </p>
+    </div>
+    
+    <!-- Book 7: The Word is Murder -->
+    <div class="relative cursor-pointer hover:opacity-80 transition-opacity" onclick="openBook(7)">
+     <img alt="The Word is Murder book cover with a silhouette of a person and red text" class="rounded-lg w-full object-cover" height="200" src="https://storage.googleapis.com/a1aa/image/4a1250f0-8068-461f-0c2a-a75c1e7bd71d.jpg" width="150"/>
+     <div aria-label="Bookmark" class="absolute top-2 right-2 bg-green-600 rounded text-white text-xs w-5 h-5 flex items-center justify-center">
+      <i class="fas fa-bookmark"></i>
+     </div>
+     <p class="mt-2 text-center text-sm font-normal text-gray-700 select-none">
+      The Word is Murder
+     </p>
+     <p class="text-center text-xs text-gray-400 select-none">
+      Anthony Horowitz
+     </p>
+    </div>
+    
+    <!-- Book 8: The Silmarillion -->
+    <div class="relative cursor-pointer hover:opacity-80 transition-opacity" onclick="openBook(8)">
+     <img alt="The Silmarillion book cover in purple with mountains and forest" class="rounded-lg w-full object-cover" height="200" src="https://storage.googleapis.com/a1aa/image/18d3bddb-149d-4272-516a-30fd036c0015.jpg" width="150"/>
+     <div aria-label="Locked" class="absolute top-2 right-2 bg-green-600 rounded text-white text-xs w-5 h-5 flex items-center justify-center">
+      <i class="fas fa-lock"></i>
+     </div>
+     <p class="mt-2 text-center text-sm font-normal text-gray-700 select-none">
+      The Silmarillion
+     </p>
+     <p class="text-center text-xs text-gray-400 select-none">
+      J. R. R. Tolkien
+     </p>
+    </div>
+   </div>
+  </section>
 
-    <script src="js/data.js"></script>
-    <script>
-        class LibraryApp {
-            constructor() {
-                this.booksGrid = document.getElementById('booksGrid');
-                this.searchInput = document.getElementById('searchInput');
-                this.noBooksMessage = document.getElementById('noBooksMessage');
-                
-                this.init();
-            }
-
-            init() {
-                this.renderBooks(books);
-                this.setupSearch();
-            }
-
-            renderBooks(booksToRender) {
-                this.booksGrid.innerHTML = '';
-                
-                if (booksToRender.length === 0) {
-                    this.showNoBooks();
-                    return;
-                }
-
-                this.hideNoBooks();
-
-                booksToRender.forEach(book => {
-                    const bookCard = this.createBookCard(book);
-                    this.booksGrid.appendChild(bookCard);
-                });
-            }
-
-            createBookCard(book) {
-                const card = document.createElement('a');
-                card.href = `reader.html?book=${book.id}&chapter=1`;
-                card.className = 'book-card';
-                
-                // Hitung total waktu baca
-                const totalReadingTime = book.chapters.reduce((total, chapter) => {
-                    const time = parseInt(chapter.readingTime.replace(/\D/g, '')) || 0;
-                    return total + time;
-                }, 0);
-
-                card.innerHTML = `
-                    <div class="book-header">
-                        <div class="book-icon">
-                            <i class="fas fa-book"></i>
-                        </div>
-                        <div class="book-info">
-                            <h3 class="book-title">${book.title}</h3>
-                            <p class="book-subtitle">${book.subtitle}</p>
-                        </div>
-                    </div>
-                    <div class="book-meta">
-                        <span class="chapters-count">
-                            <i class="fas fa-list"></i>
-                            ${book.chapters.length} Bab
-                        </span>
-                        <span class="read-time">
-                            <i class="fas fa-clock"></i>
-                            ${totalReadingTime} menit
-                        </span>
-                    </div>
-                `;
-
-                return card;
-            }
-
-            setupSearch() {
-                this.searchInput.addEventListener('input', (e) => {
-                    const query = e.target.value.toLowerCase().trim();
-                    
-                    if (query === '') {
-                        this.renderBooks(books);
-                        return;
-                    }
-
-                    const filteredBooks = books.filter(book => 
-                        book.title.toLowerCase().includes(query) ||
-                        book.subtitle.toLowerCase().includes(query) ||
-                        book.chapters.some(chapter => 
-                            chapter.title.toLowerCase().includes(query)
-                        )
-                    );
-
-                    this.renderBooks(filteredBooks);
-                });
-            }
-
-            showNoBooks() {
-                this.noBooksMessage.style.display = 'block';
-            }
-
-            hideNoBooks() {
-                this.noBooksMessage.style.display = 'none';
-            }
-        }
-
-        // Initialize app when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            new LibraryApp();
-        });
-    </script>
+  <script>
+    function openBook(bookId) {
+      // Redirect ke reader.html dengan parameter ID buku
+      window.location.href = `reader.html?id=${bookId}`;
+    }
+  </script>
 </body>
 </html>
